@@ -1,0 +1,8 @@
+*.pth
+*.csv
+sms_spam_collection
+.DS_Store
+*.zip
+.ipynb_checkpoints
+__pycache__
+.virtual_documents
