@@ -6,3 +6,5 @@ sms_spam_collection
 .ipynb_checkpoints
 __pycache__
 .virtual_documents
+*.pdf
+*.pt
