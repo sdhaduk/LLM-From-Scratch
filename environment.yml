@@ -1,0 +1,16 @@
+name: gptfs
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pytorch=2.4.0
+  - ipykernel
+  - jupyterlab
+  - tiktoken=0.7.0
+  - numpy
+  - matplotlib
+  - lxml
+  - pandas
+  - tqdm[version='>=4.66']
+  - seaborn
+prefix: /opt/anaconda3/envs/gptfs
