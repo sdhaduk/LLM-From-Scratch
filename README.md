@@ -70,3 +70,11 @@ This image below shows the value of the learning rate during training.
 ![lr](https://github.com/user-attachments/assets/8e0c8ba8-7019-4bbd-b6e9-f8167f7d69e8)
 
 The linear increase in learning rate is due to the linear warm up rate for the first 10% of steps, after which cosine decay kicks in and the learning rate decays until it hits the assigned minimum.
+
+### Perplexity
+We use the wikitext2 dataset to calculate the perplexity of the model, this dataset is commonly used to evaluate perplexity of LLMs after pretraining.
+
+The perplexity of our pretrained model was 3485.89
+
+This extremely high perplexity of our model is a clear sign that it was not trained on enough text data, as the original GPT2-small was trained on 40GB of data, while ours was only trained on 5GB. The quality of the data also factors into this as the raw text data from Project Gutenberg is variable, some texts being low quality while others are high quality.
+
