@@ -51,8 +51,8 @@ This is the link to the repository that contains the pipeline. This pipeline was
 * Combined cleaned documents, seperating them by <|endoftext|> to preserve semantic boundaries, into .pt files of customizable size
 
 ### Model Train Loop
-* Warmup and cosine decay learning rate schedule
-* Mixed precision training by using torch.amp for autocast and GradScaler to reduce memory and improve speed
+* Added warmup, cosine decay, and gradient clipping to stabalize training
+* Mixed precision training by using torch.amp for autocast and GradScaler to reduce memory and improve speed of training
 * Can interrupt model training and resume from where training left off
 * Uses GaLoreAdamW for memory-efficient training with low-rank gradient projections
 
