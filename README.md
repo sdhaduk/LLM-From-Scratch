@@ -52,8 +52,8 @@ This is the link to the repository that contains the pipeline. This pipeline was
 
 ### Model Train Loop
 * Added warmup, cosine decay, and gradient clipping to stabalize training
-* Mixed precision training by using torch.amp for autocast and GradScaler to reduce memory and improve speed of training
-* Can interrupt model training and resume from where training left off
+* Mixed precision training by using torch.amp for autocast and GradScaler to reduce memory and improve speed of training on an RTX GPU
+* Added ability to interrupt model training and resume from where training left off
 * Uses GaLoreAdamW for memory-efficient training with low-rank gradient projections
 
 ### Pretrained Model Evaluation
