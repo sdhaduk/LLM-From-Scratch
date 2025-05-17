@@ -1,4 +1,4 @@
-# Build A Large Language Model from Scratch Implementation
+# "Build A Large Language Model from Scratch" Implementation
 This repository contains my full implementation of the chapters from Sebastian Raschka's book "Build a Large Language Model from Scratch". It serves as both a learning project and a complete reference for constructing a GPT-style language model using PyTorch.
 
 This project walks through all the foundational steps in building a transformer-based language model — from tokenization and model architecture to pretraining, fine-tuning, and evaluation. It mirrors the structure and chapters of the book, ensuring each concept is implemented and explained with clarity. It also contains interactive notebooks 
@@ -44,17 +44,21 @@ This part of the project is the implementation of the chapters from the book, ea
 This is the link to the repository that contains the pipeline. This pipeline was created by taking the code we implemented from the book and modularizing it, then building upon it.
 
 ### Data Preprocessing 
-* Chose the Project Gutenberg corpora as the pretraining dataset
-* Cleaned the dataset by removing roman numeral tags, illustration captions, tables, ASCII dividers, decorative lines, and all-caps titles
-* Filtered the dataset by removing non english books, picture books, books with low text count
-* Tokenized the raw text books with BPE, turned them into tensors, then saved these tensors as files to be used for pretraining
-* Combined cleaned documents, seperating them by <|endoftext|> to preserve semantic boundaries, into .pt files of customizable size
+* Dataset: Project Gutenberg (public domain books)
+* Removed artifacts like roman numeral headers, illustrations, decorative lines, and all-caps titles
+* Filtered out non-English books, picture books, and low-text-count documents
+* Tokenized all books using Byte-Pair Encoding (BPE) via tiktoken
+* Converted tokenized sequences to PyTorch tensors, saved in .pt format
+* Merged multiple documents using the <|endoftext|> token to separate semantic boundaries
+* Batched and saved documents into files of configurable size (e.g., 500MB each)
 
 ### Model Train Loop
-* Added warmup, cosine decay, and gradient clipping to stabalize training
-* Mixed precision training by using torch.amp for autocast and GradScaler to reduce memory and improve speed of training on an RTX GPU
-* Added ability to interrupt model training and resume from where training left off
-* Uses GaLoreAdamW for memory-efficient training with low-rank gradient projections
+* Linear warmup (first 10% of steps) to avoid training instability
+* Cosine learning rate decay for gradual schedule
+* Gradient clipping (max norm = 1.0) to prevent exploding gradients
+* Integrated ```torch.amp.autocast``` and ```torch.amp.GradScaler``` for faster training and lower memory use.
+* Added functionality to interrupt and resume training at the file and batch level
+* Uses GaLoreAdamW optimzer for memory-efficient training 
 
 ### Pretrained Model Evaluation
 Our model, GPT2-small, was trained using this pipeline on about 5 GB of text data, which took roughly 100 hours on an RTX 4060 Ti 16GB.
@@ -63,18 +67,20 @@ Our model, GPT2-small, was trained using this pipeline on about 5 GB of text dat
 This image below shows the loss on the train and validation set during training.
 ![loss](https://github.com/user-attachments/assets/03992f54-e045-4485-991b-edc578614a39)
 
-The image shows how loss values for both validation and training had a major shift everytime a new file was opened to be trained on. This makes sense because text can vary significantly from book to book.
+Loss increased temporarily every time a new tokenized file was loaded. This is expected behavior due to content variance between books.
 
 #### Learning Rate
 This image below shows the value of the learning rate during training. 
 ![lr](https://github.com/user-attachments/assets/8e0c8ba8-7019-4bbd-b6e9-f8167f7d69e8)
 
-The linear increase in learning rate is due to the linear warm up rate for the first 10% of steps, after which cosine decay kicks in and the learning rate decays until it hits the assigned minimum.
+Warmup increased learning rate linearly for 10% of total steps, followed by cosine decay toward a minimum LR.
 
 ### Perplexity
-We use the wikitext2 dataset to calculate the perplexity of the model, this dataset is commonly used to evaluate perplexity of LLMs after pretraining.
+To evaluate generalization, we used the WikiText-2 (raw) dataset — a standard benchmark for language modeling. Only the test split was used.
 
 The perplexity of our pretrained model was 3485.89
 
-This extremely high perplexity of our model is a clear sign that it was not trained on enough text data, as the original GPT2-small was trained on 40GB of data, while ours was only trained on 5GB. The quality of the data also factors into this as the raw text data from Project Gutenberg is variable, some texts being low quality while others are high quality.
-
+This very high value reflects:
+* Small training dataset (5 GB vs. 40+ GB for original GPT-2)
+* High variance in data quality (Project Gutenberg has mixed-quality books)
+* Absence of advanced regularization or data augmentation strategies
