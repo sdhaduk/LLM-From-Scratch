@@ -6,9 +6,6 @@ that give the reader can use to further their understanding on complex topics pr
 
 Using the concepts presented in this book, we also implemented a fully custom pretraining pipeline tailored for efficient and scalable training of GPT-style models from scratch. The pipeline mirrors real-world LLM training strategies and includes multiple components designed for modularity and performance.
 
-### [Project Video](https://youtu.be/YZoNUFYjJGI)
-### [Project Report](https://docs.google.com/document/d/1T8R_O6jpg5E_s44ExKdJBgPisx6Yl3IyEpDVxzCH9oE/edit?usp=sharing)
-
 ## Chapters 2-7
 This part of the project is the implementation of the chapters from the book, each chapter focuses on a different part of building and understanding large language models — from foundational concepts and attention mechanisms, to pretraining from scratch and fine-tuning for downstream tasks like classification and instruction following.
 
